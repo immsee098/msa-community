@@ -2,6 +2,8 @@ package com.bithumb.msacommunity.service;
 
 import com.bithumb.msacommunity.domain.Board;
 import com.bithumb.msacommunity.repository.BoardRepository;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -9,6 +11,7 @@ import java.util.Date;
 import java.util.Objects;
 
 @Service
+@Slf4j
 public class BoardServiceImpl implements BoardService {
 
     private final BoardRepository boardRepository;
@@ -26,6 +29,7 @@ public class BoardServiceImpl implements BoardService {
     //게시글 숨김
     @Override
     public Mono<Board> hideBoard(Integer articleId) {
+
         return boardRepository.findById(articleId)
                 .filter(Objects::nonNull) //있는 댓번일때
                 //.filter(item -> item.getVisibleyn()==0) //show상태일떄

@@ -19,7 +19,7 @@ import java.sql.SQLException;
 @EnableR2dbcAuditing
 public class H2ServerConfig {
     private Server webServer;
-    Integer h2ConsolePort = 9092;
+    Integer h2ConsolePort = 9093;
 
     @EventListener(ContextRefreshedEvent.class)
     public void start() throws SQLException {
