@@ -14,16 +14,9 @@ spring:
     initialization-mode: always
     application:
       name: Community Domain Server # 도메인 서버 이름
-
-  ###카프카 세팅
   kafka:
     consumer:
-      bootstrap-servers: localhost:9092
-      group-id: my-group
-
-    producer:
-      bootstrap-servers: localhost:9092
-      retries: 1
+      bootstrap-servers:
 
 
 logging:

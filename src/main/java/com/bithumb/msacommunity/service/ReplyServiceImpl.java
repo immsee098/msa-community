@@ -4,7 +4,6 @@ import com.bithumb.msacommunity.domain.Reply;
 import com.bithumb.msacommunity.repository.ReplyRepository;
 import com.bithumb.msacommunity.webclient.CommunityWebClient;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -17,12 +16,8 @@ public class ReplyServiceImpl implements ReplyService {
     private final ReplyRepository replyRepository;
     CommunityWebClient client;
 
-    private final KafkaTemplate<String, String> kafkaTemplate;
-
-
-    public ReplyServiceImpl(ReplyRepository replyRepository, KafkaTemplate<String, String> kafkaTemplate) {
+    public ReplyServiceImpl(ReplyRepository replyRepository) {
         this.replyRepository = replyRepository;
-        this.kafkaTemplate = kafkaTemplate;
     }
 
     //댓글 저장
@@ -31,12 +26,8 @@ public class ReplyServiceImpl implements ReplyService {
         return this.replyRepository.save(reply);
     }
 
-    //프로듀서 역
     //댓글 숨김
     public Mono hideReply(Integer replyId) {
-        String message = ">>>>>>>>>>>>>>>>kafka message: deleted replyId=" + replyId;
-        log.info(message);
-        this.kafkaTemplate.send("myMessage", message);
 
         return replyRepository.findById(replyId)
                 .switchIfEmpty(Mono.error(new RuntimeException(">>>>not found exception")))
